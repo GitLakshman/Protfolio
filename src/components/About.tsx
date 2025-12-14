@@ -1,170 +1,210 @@
 import { motion } from "framer-motion";
+import {
+  SectionHeader,
+  AnimatedContainer,
+  StaggerItem,
+  FadeIn,
+  AnimatedCard,
+  BackgroundOrb,
+} from "./animations";
+
+const StatCard = ({
+  title,
+  value,
+  icon,
+  index,
+}: {
+  title: string;
+  value: string;
+  icon: string;
+  index: number;
+}) => {
+  return (
+    <AnimatedCard
+      delay={index * 0.1}
+      className="relative bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-600 overflow-hidden group"
+    >
+      {/* Background gradient */}
+      <motion.div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      {/* Icon */}
+      <motion.div
+        className="text-4xl mb-3"
+        whileHover={{ scale: 1.2, rotate: [0, -10, 10, 0] }}
+        transition={{ duration: 0.4 }}
+      >
+        {icon}
+      </motion.div>
+
+      {/* Value */}
+      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+        {value}
+      </h3>
+
+      <p className="text-gray-600 dark:text-gray-300 text-sm">{title}</p>
+
+      {/* Decorative line */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary-500 to-purple-500"
+        initial={{ width: 0 }}
+        whileInView={{ width: "100%" }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+      />
+    </AnimatedCard>
+  );
+};
 
 const About = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+  const stats = [
+    { title: "Education", value: "B.Tech ECE", icon: "🎓" },
+    { title: "Experience", value: "1+ Years", icon: "💼" },
+    { title: "Projects", value: "3+ Completed", icon: "🚀" },
+    { title: "Clients", value: "1+ Happy", icon: "😊" },
+  ];
 
   return (
     <section
       id="about"
-      className="py-16 md:py-20 bg-white dark:bg-gray-800 transition-colors duration-300"
+      className="py-20 md:py-28 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300 relative overflow-hidden"
     >
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={containerVariants}
-        >
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
-            variants={itemVariants}
-          >
-            About Me
-          </motion.h2>
-          <motion.div
-            className="w-20 h-1 bg-primary-600 mx-auto"
-            variants={itemVariants}
-          ></motion.div>
-        </motion.div>
+      {/* Background decorations */}
+      <div className="absolute inset-0 pointer-events-none">
+        <BackgroundOrb
+          position="absolute top-20 right-0"
+          size="w-96 h-96"
+          colors="from-primary-200/30 to-transparent dark:from-primary-900/20"
+        />
+        <BackgroundOrb
+          position="absolute bottom-20 left-0"
+          size="w-80 h-80"
+          colors="from-purple-200/30 to-transparent dark:from-purple-900/20"
+          duration={12}
+        />
+      </div>
 
-        <div className="flex flex-col md:flex-row gap-8 items-center">
-          <motion.div
-            className="md:w-1/2"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.p
-              className="text-lg text-gray-600 dark:text-gray-300 mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
-              Hello! I'm Lakshman, an enthusiastic full-stack developer based in
-              India. I enjoy creating web solutions that are efficient,
-              responsive, and user-friendly.
-            </motion.p>
-            <motion.p
-              className="text-lg text-gray-600 dark:text-gray-300 mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              With hands-on experience in Java, Spring Boot, and React, I’ve
-              contributed to scalable applications during internships and
-              academic projects. I specialize in backend systems, frontend
-              interfaces, and cloud-based deployments.
-            </motion.p>
-            <motion.p
-              className="text-lg text-gray-600 dark:text-gray-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              When I'm not coding, you can find me learning new technologies,
-              solving coding challenges, or collaborating on GitHub. I believe a
-              strong foundation and curiosity drive innovation in software
-              development.
-            </motion.p>
-          </motion.div>
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section header - Now just one line! */}
+        <SectionHeader
+          badge="👋 Get to know me"
+          title="About Me"
+          highlightedWord="Me"
+        />
 
-          <motion.div
-            className="md:w-1/2 grid grid-cols-2 gap-4"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={containerVariants}
-          >
-            <motion.div
-              className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm"
-              variants={itemVariants}
-              whileHover={{
-                y: -5,
-                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Education
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                BTech in Electronics and Communication
-                <br />
-                JNTUK, 2021-2025
-              </p>
-            </motion.div>
+        <div className="flex flex-col lg:flex-row gap-12 items-center">
+          {/* Text content */}
+          <AnimatedContainer className="lg:w-1/2">
+            <StaggerItem>
+              <div className="relative mb-8">
+                <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 via-purple-500 to-pink-500 rounded-full" />
+                <div className="pl-6 space-y-6">
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Hello! I'm{" "}
+                    <span className="font-semibold text-primary-600 dark:text-primary-400">
+                      Lakshman
+                    </span>
+                    , an enthusiastic full-stack developer based in India. I
+                    enjoy creating web solutions that are efficient, responsive,
+                    and user-friendly.
+                  </p>
 
-            <motion.div
-              className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm"
-              variants={itemVariants}
-              whileHover={{
-                y: -5,
-                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Experience
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                1+ Years
-                <br />
-                Full-Stack Java Development
-              </p>
-            </motion.div>
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    With hands-on experience in{" "}
+                    <span className="font-semibold text-primary-600 dark:text-primary-400">
+                      Java, Spring Boot, and React
+                    </span>
+                    , I've contributed to scalable applications during
+                    internships and academic projects. I specialize in backend
+                    systems, frontend interfaces, and cloud-based deployments.
+                  </p>
 
-            <motion.div
-              className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm"
-              variants={itemVariants}
-              whileHover={{
-                y: -5,
-                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Projects
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                3+ Projects
-                <br />
-                Completed
-              </p>
-            </motion.div>
+                  <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    When I'm not coding, you can find me learning new
+                    technologies, solving coding challenges, or collaborating on
+                    GitHub. I believe a strong foundation and curiosity drive
+                    innovation in software development.
+                  </p>
+                </div>
+              </div>
+            </StaggerItem>
 
-            <motion.div
-              className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm"
-              variants={itemVariants}
-              whileHover={{
-                y: -5,
-                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Clients
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                1+ Happy
-                <br />
-                Clients
-              </p>
-            </motion.div>
-          </motion.div>
+            {/* CTA buttons */}
+            <StaggerItem>
+              <div className="flex flex-wrap gap-4">
+                <motion.a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 transition-shadow"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span>Let's Talk</span>
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.span>
+                </motion.a>
+
+                <motion.a
+                  href="/resume.pdf"
+                  target="_blank"
+                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Download Resume
+                </motion.a>
+              </div>
+            </StaggerItem>
+          </AnimatedContainer>
+
+          {/* Stats grid */}
+          <div className="lg:w-1/2">
+            <div className="grid grid-cols-2 gap-6">
+              {stats.map((stat, index) => (
+                <StatCard key={index} {...stat} index={index} />
+              ))}
+            </div>
+
+            {/* Fun facts */}
+            <FadeIn delay={0.5} className="mt-8">
+              <div className="p-6 bg-gradient-to-r from-primary-500/10 to-purple-500/10 dark:from-primary-900/30 dark:to-purple-900/30 rounded-2xl border border-primary-100 dark:border-primary-800">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                  <span>⚡</span> Quick Facts
+                </h4>
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                  {[
+                    "🌍 Based in Amalapuram, Andhra Pradesh",
+                    "☕ Fueled by coffee and curiosity",
+                    "🎯 Always learning something new",
+                    "🤝 Open to collaboration",
+                  ].map((fact, index) => (
+                    <FadeIn
+                      key={index}
+                      direction="left"
+                      delay={0.6 + index * 0.1}
+                    >
+                      <li className="flex items-center gap-2">{fact}</li>
+                    </FadeIn>
+                  ))}
+                </ul>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </div>
     </section>
